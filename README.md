@@ -1,2 +1,4 @@
 # scrypto
-An async JavaScript Scrypt implementation using Web Cryptography APIs for PBKDF2.
+
+An async JavaScript Scrypt implementation using Web Cryptography APIs for
+PBKDF2.
