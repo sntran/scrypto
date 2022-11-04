@@ -5,21 +5,35 @@ type Params = {
   r: string | number;
   p: string | number;
   dkLen: string | number;
-}
+};
 
 const defaults: Params = {
   "N": 16384,
   "r": 8,
   "p": 1,
   "dkLen": 64,
-}
+};
 
 const encoder = new TextEncoder();
 
-export async function scrypt(password: string, salt: string, params: Partial<Params> = {}): Promise<string> {
-  const { N, r, p, dkLen } = {...defaults, ...params};
-  const key = await _scrypt(encoder.encode(password), encoder.encode(salt), N, r, p, dkLen, () => {});
-  return new Uint8Array(key).reduce((a, b) => a + b.toString(16).padStart(2, "0"), "");
+export async function scrypt(
+  password: string,
+  salt: string,
+  params: Partial<Params> = {},
+): Promise<string> {
+  const { N, r, p, dkLen } = { ...defaults, ...params };
+  const key = await _scrypt(
+    encoder.encode(password),
+    encoder.encode(salt),
+    Number(N),
+    Number(r),
+    Number(p),
+    Number(dkLen),
+  );
+  return new Uint8Array(key!).reduce(
+    (a, b) => a + b.toString(16).padStart(2, "0"),
+    "",
+  );
 }
 
 // Learn more at https://deno.land/manual/examples/module_metadata#concepts
